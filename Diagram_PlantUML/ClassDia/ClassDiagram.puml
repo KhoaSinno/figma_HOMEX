@@ -1,0 +1,81 @@
+@startUml ChatGPT gen Raw data
+left to right direction
+
+class User {
+  - id: String
+  - name: String
+  - phone: String
+  - email: String
+  - password: String
+  + updateProfile()
+}
+
+class Patient {
+  - medicalHistory: String
+  + bookAppointment()
+  + manageAppointments()
+}
+
+class Doctor {
+  - specialization: String
+  - schedule: List<DateTime>
+  + managePatientAppointments()
+  + manageWorkSchedule()
+}
+
+class Receptionist {
+  + approveAppointments()
+}
+
+class Admin {
+  + manageDoctors()
+  + managePatients()
+  + manageSchedules()
+  + manageBlog()
+  + manageAppointments()
+  + manageTransactions()
+  + manageGuidelines()
+}
+
+class Appointment {
+  - id: String
+  - date: DateTime
+  - status: String
+  + confirm()
+  + cancel()
+}
+
+class Payment {
+  - id: String
+  - amount: Double
+  - method: String
+  + processPayment()
+}
+
+class Blog {
+  - id: String
+  - title: String
+  - content: String
+  + publish()
+  + edit()
+}
+
+class Transaction {
+  - id: String
+  - amount: Double
+  - status: String
+  + processTransaction()
+}
+
+User <|-- Patient
+User <|-- Doctor
+User <|-- Receptionist
+User <|-- Admin
+Patient --* Appointment : đặt
+Doctor --* Appointment : quản lý
+Receptionist --* Appointment : duyệt
+Patient --* Payment : thực hiện
+Payment --* Transaction : tạo giao dịch
+Admin --* Blog : quản lý
+Admin --* Transaction : quản lý
+@endUml
