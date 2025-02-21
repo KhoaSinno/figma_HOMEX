@@ -22,3 +22,35 @@
 ### 👀 Github: `KhoaSinno`
 
 - **[figma_HOMEX](https://github.com/KhoaSinno/figma_HOMEX)**  
+
+# 📌 Phân tích và Thiết kế Hệ thống Đặt lịch Khám bệnh Online  
+
+## **1. Chức năng chính**  
+
+- **🛠️ Quản trị viên (Admin):**  
+  - Quản lý **bác sĩ, bệnh nhân, lịch khám bác sĩ**.  
+  - Quản lý **blog, cuộc hẹn, giao dịch, danh sách hướng dẫn**.  
+- **👤 Người dùng chung (None Actor):** Quản lý thông tin cá nhân.
+- **🧑‍⚕️ Bệnh nhân (Patient):**  
+  - Quản lý lịch khám cá nhân.  
+  - Đặt lịch khám.  
+  - Thanh toán trực tuyến qua **Ngân hàng, MoMo, VnPay**.  
+- **👨‍⚕️ Bác sĩ (Doctor):**  
+  - Quản lý lịch khám bệnh nhân.
+  - Duyệt lịch khám bệnh nhân.
+  - Quản lý lịch làm việc cá nhân.  
+- **🛎️ Lễ tân (Receptionist):** Duyệt lịch khám.  
+
+## **2. Yêu cầu Thiết kế - PlantUML**  
+
+- **📌 Use Case Diagram**.  
+- **📌 Class Diagram**.  
+- **📌 Sequence Diagram**.  
+
+## **3. Các Thành phần Chính của Hệ thống**  
+
+- **👤 User:** `Admin`, `Patient`, `Doctor`, `Receptionist`.  
+- **📅 Appointment:** Quản lý lịch hẹn giữa bệnh nhân và bác sĩ.  
+- **🏥 Specialty:** Danh mục chuyên khoa của bác sĩ.  
+- **📆 ScheduleWork:** Lịch làm việc của bác sĩ.  
+- **📝 Blog:** Hệ thống bài viết, hướng dẫn cho bệnh nhân.  
