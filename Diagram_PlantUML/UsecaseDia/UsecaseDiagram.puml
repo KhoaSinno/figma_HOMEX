@@ -1,32 +1,31 @@
-@startUml ChatGPT gen Raw data
+@startuml
 left to right direction
 
 actor "Bệnh nhân" as Patient
 actor "Bác sĩ" as Doctor
-actor "Lễ tân" as Receptionist
+actor "Nhân viên tiếp nhận" as Receptionist
 actor "Admin" as Admin
-actor "Hệ thống thanh toán" as PaymentSystem
-actor "Người dùng chung" as User
 
 rectangle "Hệ thống Đặt lịch khám bệnh" {
-    User -- (Quản lý thông tin cá nhân)
+    (Đăng ký tài khoản) -- Patient
+    (Đăng nhập) -- Patient
+    (Đặt lịch khám) -- Patient
+    (Hủy lịch khám) -- Patient
+    (Thanh toán) -- Patient
+    (Xem lịch sử khám) -- Patient
+    
+    (Đặt lịch khám) .> (Thông báo nhắc lịch) : include
+    (Hủy lịch khám) .> (Hoàn tiền nếu hợp lệ) : include
 
-    Patient -- (Đặt lịch khám)
-    Patient -- (Quản lý lịch khám bản thân)
-    Patient -- (Thanh toán) 
-    (Thanh toán) -- PaymentSystem
-
-    Doctor -- (Quản lý lịch khám bệnh nhân)
-    Doctor -- (Quản lý lịch làm việc cá nhân)
-
-    Receptionist -- (Duyệt lịch khám)
-
-    Admin -- (Quản lý bác sĩ)
-    Admin -- (Quản lý bệnh nhân)
-    Admin -- (Quản lý lịch khám bác sĩ)
-    Admin -- (Quản lý blog)
-    Admin -- (Quản lý cuộc hẹn)
-    Admin -- (Quản lý giao dịch)
-    Admin -- (Quản lý danh sách hướng dẫn)
+    (Xem lịch khám bệnh nhân) -- Doctor
+    (Cập nhật hồ sơ khám) -- Doctor
+    
+    (Duyệt lịch khám) -- Receptionist
+    (Hủy lịch nếu bác sĩ bận) -- Receptionist
+    
+    (Quản lý người dùng) -- Admin
+    (Quản lý bác sĩ) -- Admin
+    (Quản lý lịch khám) -- Admin
+    (Quản lý giao dịch) -- Admin
 }
-@endUml 
+@enduml
