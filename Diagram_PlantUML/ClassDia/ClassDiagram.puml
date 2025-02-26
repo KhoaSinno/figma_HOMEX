@@ -39,11 +39,6 @@ class Doctor {
   +updateMedicalRecord()
 }
 
-class Receptionist {
-  +approveAppointment()
-  +cancelAppointment()
-}
-
 class Admin {
   +manageUsers()
   +manageDoctors()
@@ -53,11 +48,9 @@ class Admin {
 
 User <|-- Patient
 User <|-- Doctor
-User <|-- Receptionist
 User <|-- Admin
 
 Patient --> Appointment : "đặt lịch"
 Doctor --> Appointment : "có lịch hẹn"
-Receptionist --> Appointment : "duyệt lịch"
 Appointment --> Payment : "liên kết"
 @enduml

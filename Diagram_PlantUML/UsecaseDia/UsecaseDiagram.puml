@@ -3,7 +3,6 @@ left to right direction
 
 actor "Bệnh nhân" as Patient
 actor "Bác sĩ" as Doctor
-actor "Nhân viên tiếp nhận" as Receptionist
 actor "Admin" as Admin
 
 rectangle "Hệ thống Đặt lịch khám bệnh" {
@@ -19,9 +18,6 @@ rectangle "Hệ thống Đặt lịch khám bệnh" {
 
     (Xem lịch khám bệnh nhân) -- Doctor
     (Cập nhật hồ sơ khám) -- Doctor
-    
-    (Duyệt lịch khám) -- Receptionist
-    (Hủy lịch nếu bác sĩ bận) -- Receptionist
     
     (Quản lý người dùng) -- Admin
     (Quản lý bác sĩ) -- Admin
