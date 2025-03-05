@@ -1,13 +1,19 @@
 @startuml HOMEX
 
 left to right direction
+skinparam shadowing false
+skinparam note {
+BorderColor #black
+BackgroundColor #white
+FontColor black
+}
 
 actor "Người dùng chung" as User
 actor "Bệnh nhân" as Patient
 actor "Bác sĩ" as Doctor
 actor "Quản trị viên" as Admin
 
-rectangle "Quản lý hệ thống đặt lịch khám bệnh HOMEX" {
+rectangle " " {
     usecase "Quản lý thông tin cá nhân" as info_management
     usecase "Quản lý bác sĩ" as doctor_management
     usecase "Quản lý bệnh nhân" as patient_management
@@ -21,25 +27,31 @@ rectangle "Quản lý hệ thống đặt lịch khám bệnh HOMEX" {
     
 }
 
+appointment_management <.. appointment_book: extend
+appointment_management <.. approve: extend
+
+left to right direction
+User --- info_management
+
+Doctor --- approve
+Doctor --- workSchedule_management
+Doctor --- appointment_management
+
+Patient -- appointment_management
+Patient -- appointment_book
+
 Admin -- doctor_management
 Admin -- patient_management
 Admin -- workSchedule_management
-Admin -- blog_management
-Admin -- appointment_management
+Admin --- blog_management
+Admin --- appointment_management
 Admin -- transaction_management
 Admin -- instrument_management
 
-User -- info_management
-
-Patient -- appointment_book
-Patient -- appointment_management
-
-Doctor -- approve
-Doctor -- workSchedule_management
-Doctor -- patient_management
-
 User <|-- Patient
-User <|-- Doctor
-User <|-- Admin
+User <|- Doctor
+User <|- Admin
+
+
 
 @enduml
