@@ -1,57 +1,125 @@
-@startuml HOMEX
-
+@startuml CTUTCare
+' skinparam Shadowing true
 left to right direction
-skinparam shadowing false
-skinparam note {
-BorderColor #black
-BackgroundColor #white
-FontColor black
-}
 
-actor "Người dùng chung" as User
-actor "Bệnh nhân" as Patient
+'------------- Actor -------------
+' actor "User" as User
+actor "Admin" as Admin
 actor "Bác sĩ" as Doctor
-actor "Quản trị viên" as Admin
+actor "Bệnh nhân" as Patient
 
-rectangle " " {
-    usecase "Quản lý thông tin cá nhân" as info_management
-    usecase "Quản lý bác sĩ" as doctor_management
-    usecase "Quản lý bệnh nhân" as patient_management
-    usecase "Quản lý blog" as blog_management
-    usecase "Quản lý lịch làm việc của bác sĩ" as workSchedule_management
-    usecase "Quản lý cuộc hẹn" as appointment_management
-    usecase "Đặt lịch hẹn" as appointment_book
-    usecase "Duyệt lịch" as approve
-    usecase "Quản lý giao dịch" as transaction_management
-    usecase "Quản lý danh sách hướng dẫn" as instrument_management
+'----------- Extend -----------
+' Admin --|> User
+' User <|-- Doctor
+' User <|-- Patient
+
+'------------- Boundary -------------
+rectangle "Hệ thống đặt lịch khám bệnh CTUTCare+" {
+
+'>>>>>>>>>>>>>>> Khai báo >>>>>>>>>>>>>>>
+
+'------- UceeCase Tổng quát -------
+    (QL thông tin cá nhân) as QLTTCN
     
+    (QL lịch hẹn) as QLLH
+
+    (QL lịch khám bệnh) as QLLKB
+
+    (QL blog) as QLB
+ 
+    ' (QL phòng khám) as QLPK
+   
+    (QL chuyên khoa) as QLCK
+  
+    (QL bệnh nhân) as QLBN
+  
+    (QL bác sĩ) as QLBS
+
+    (Thanh toán Momo) as Payment
+
+
+    note bottom of QLTTCN: Xem lịch sử đặt lịch; \nThêm/ Sửa/ Xóa thông tin;
+    
+    note bottom of QLLH: Thêm/Sửa/Xóa lịch hẹn; 
+
+    note bottom of QLLKB: Thêm/Sửa/Xóa lịch làm việc bác sĩ; 
+    ' note bottom of QLPK: Thêm/ Sửa/ Xóa phòng khám;
+
+    note bottom of QLCK: Thêm/ Sửa/ Xóa chuyên khoa;
+
+    note bottom of QLB: Thêm/ Sửa/ Xóa blog;
+
+    note bottom of QLBN: Quản lý hồ sơ bệnh án;
+
+    note bottom of QLBS: Thêm/Sửa/Xóa bác sĩ; \nThêm/Sửa/Xóa lịch làm việc; \nXem lịch sử khám;
+
+'------------- UceeCase Chi tiết -------------
+    'Business
+    (Cập nhật lịch hẹn; Trả kết quả;) as UpdateLKB
+    QLLH <.. UpdateLKB
+
+    (Thêm/Sửa/Xóa bệnh nhân;) as crudBN
+    (Xem lịch sử khám bệnh bệnh nhân; ) as getLKBBN
+    QLBN <.. crudBN
+    QLBN <.. getLKBBN
+
+    (Đặt lịch hẹn mới;) as createLHM
+    (Hủy lịch hẹn;) as cancelHM
+    QLLH <.. createLHM
+    QLLH <.. cancelHM
+
+    'Account
+    (Đăng xuất) as Logout
+    (Đăng nhập) as Login
+    (Đăng kí) as SignUp
+    (Đổi mật khẩu) as ChangePass
+
+'------------- Account -------------
+    Login <. Logout: include
+    ChangePass .> Login : include
+
+'Tất cả các usecase đều include Login
+    QLTTCN <.. Login
+    QLLH <.. Login
+    QLLKB <.. Login
+    ' QLPK <.. Login
+    QLCK <.. Login
+    QLBN <.. Login
+    QLBS <.. Login
+    QLB <.. Login
+
+'------------- Admin -------------
+
+Admin -- QLTTCN
+    
+Admin -- QLLH
+
+Admin -- QLLKB
+
+' Admin -- QLPK
+  
+Admin -- QLCK
+ 
+Admin -- QLBN
+ 
+Admin -- QLBS
+
+Admin -- QLB
+
+
+'------------- Doctor -------------
+getLKBBN -- Doctor
+crudBN -- Doctor
+UpdateLKB - Doctor
+QLTTCN - Doctor
+
+'------------- Patient -------------
+SignUp ---- Patient
+cancelHM - Patient
+createLHM - Patient
+getLKBBN - Patient
+Payment -- Patient
+QLTTCN -- Patient
+
 }
-
-appointment_management <.. appointment_book: extend
-appointment_management <.. approve: extend
-
-left to right direction
-User --- info_management
-
-Doctor --- approve
-Doctor --- workSchedule_management
-Doctor --- appointment_management
-
-Patient -- appointment_management
-Patient -- appointment_book
-
-Admin -- doctor_management
-Admin -- patient_management
-Admin -- workSchedule_management
-Admin --- blog_management
-Admin --- appointment_management
-Admin -- transaction_management
-Admin -- instrument_management
-
-User <|-- Patient
-User <|- Doctor
-User <|- Admin
-
-
-
 @enduml

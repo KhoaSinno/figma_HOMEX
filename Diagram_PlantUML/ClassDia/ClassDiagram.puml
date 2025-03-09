@@ -1,56 +1,110 @@
-@startuml
+
+@startUML CTUTCare+_Class_Final
 left to right direction
-
-class Appointment {
-  +id: int
-  +patientId: int
-  +doctorId: int
-  +date: datetime
-  +status: string
-  +paymentStatus: string
-  +cancelAppointment()
-}
-
-class Payment {
-  +id: int
-  +appointmentId: int
-  +amount: float
-  +method: string
-  +status: string
-  +processPayment()
-}
+' --------------- ACTOR ---------------
+' Not null: fullname, phoneNumber, password, isDel
+' priceAppointment, licenseNumber
 
 class User {
-  +id: int
-  +name: string
-  +email: string
-  +phone: string
-  +password: string
-}
+    + ID: string
+    + fullname: string 
+    + dateOfBirth: date
+    + gender: string
+    + email: string
+    + phoneNumber: string
+    + address: string
+    + image: string
+    + password: string
+    + isDel: bool
 
-class Patient {
-  +bookAppointment()
-  +cancelAppointment()
-  +viewHistory()
-}
-
-class Doctor {
-  +viewAppointments()
-  +updateMedicalRecord()
+    + UpdateProfile(): void
+    + ChangePassword(): void
+    ' + ForgotPassword(): void
 }
 
 class Admin {
-  +manageUsers()
-  +manageDoctors()
-  +manageAppointments()
-  +manageTransactions()
+    + ManageUsers(): void
+    + ManageAppointments(): void
+    + ManageDoctors(): void
+    + ManageSpecialties(): void
+    ' + ManageClinics(): void
 }
 
-User <|-- Patient
-User <|-- Doctor
-User <|-- Admin
+class Doctor {
+    + bio: string
+    + consultantFee: double
+    + qualification: string
+    ' + specialtyYearExp: int
 
-Patient --> Appointment : "đặt lịch"
-Doctor --> Appointment : "có lịch hẹn"
-Appointment --> Payment : "liên kết"
-@enduml
+    + ManagementAppointments(): List<Appointment>
+    + ManagementSchedule(): void
+    + ViewPatients(): List<Patient>
+    ' + CreateMedicalRecord(): void
+}
+
+class Patient {
+    ' + medicalHistory: string
+    ' + insuranceNumber: string
+    ' + bloodType: string
+
+    + BookAppointment(): void
+    + CancelAppointment(): void
+    ' + ViewMedicalRecords(): List<MedicalRecord>
+}
+
+class Appointment {
+    + ID: string
+    + status: string
+    + price: double
+    + appointmentDate: date
+    + appointmentTime: string
+    + note: string
+    + result: string
+    + reason: string
+    + paymentStatus: string
+    ' MedicalRecord
+}
+
+class MomoPayment {
+    + ID: string
+    + status: string
+    + linkData: string
+    + createdAt: date
+
+    + Payment(): void
+}
+
+class ScheduleWork {
+    + ID: string
+    + date: date
+    + timeSlots: list<string>
+    + status: string
+    ' + time: string
+    ' + time_start: string
+    ' + time_end: string
+    ' + maxPatients: int
+}
+
+class Specialty {
+    + ID: string
+    + name: string
+    + image: string
+    ' + description: text
+    ' Clinic
+    + clinicNumber: string
+    ' + clinicAddress: string
+    ' + clinicPhoneNumber: string
+}
+
+' --------------- RELATIONSHIPS ---------------
+Admin --|> User
+Doctor --|> User
+Patient --|> User
+
+Doctor "1" -- "n" ScheduleWork: "has"
+Appointment "n" -- "1" Doctor: "booked with"
+Appointment "n" -- "1" Patient: "booked by"
+Specialty "1" -- "n" Doctor: "specializes in"
+MomoPayment "n" -- "1" Patient: "paid by"
+
+@endUML
