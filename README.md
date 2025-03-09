@@ -75,7 +75,7 @@
 
 - Người dùng chọn:  
   - **Loại khám**: Tổng quát, chuyên khoa, tái khám…  
-  - **Hình thức**: Trực tiếp `hoặc từ xa (telemedicine)(⚠️Option)`.  
+  - **Hình thức**: Trực tiếp, nhắn tin được bác sĩ trực tiếp tư vấn `hoặc từ xa (telemedicine)(⚠️Option)`.  
   - **Bác sĩ / Cơ sở y tế**: Lọc theo chuyên khoa, kinh nghiệm, khoảng cách.  
   - **Thời gian**: Chọn lịch trống từ hệ thống.  
 
