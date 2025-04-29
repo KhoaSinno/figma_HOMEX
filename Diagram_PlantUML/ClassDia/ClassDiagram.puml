@@ -34,7 +34,7 @@ class Doctor {
     + bio: string
     + consultantFee: double
     + qualification: string
-    ' + specialtyYearExp: int
+    + specialtyYearExp: int
 
     + ManagementAppointments(): List<Appointment>
     + ManagementSchedule(): void
@@ -45,7 +45,7 @@ class Doctor {
 class Patient {
     ' + medicalHistory: string
     ' + insuranceNumber: string
-    ' + bloodType: string
+    + bloodType: string
 
     + BookAppointment(): void
     + CancelAppointment(): void
@@ -54,6 +54,12 @@ class Patient {
 
 class Appointment {
     + ID: string
+    + patientName: string
+    + patientPhoneNumber: string
+    + patientEmail: string
+    + patientGender: string
+    + forWho: string
+    + patientDob: date
     + status: string
     + price: double
     + appointmentDate: date
@@ -63,6 +69,8 @@ class Appointment {
     + reason: string
     + paymentStatus: string
     ' MedicalRecord
+
+    + manageAppointment(): void
 }
 
 class MomoPayment {
@@ -83,6 +91,8 @@ class ScheduleWork {
     ' + time_start: string
     ' + time_end: string
     ' + maxPatients: int
+
+    + manageSchedule(): void
 }
 
 class Specialty {
@@ -91,9 +101,52 @@ class Specialty {
     + image: string
     ' + description: text
     ' Clinic
-    + clinicNumber: string
+    ' + clinicNumber: string
     ' + clinicAddress: string
     ' + clinicPhoneNumber: string
+
+    + ManageSpecialty(): void
+}
+
+class Message {
+    + ID: string
+    + senderID: string
+    + receiverID: string
+    + content: string
+    + attachment: string
+    + timestamp: date
+    + status: string
+
+    + SendMessage(): void
+    + DeleteMessage(): void
+}
+
+class Blog {
+    + ID: string
+    + title: string
+    + content: string
+    + image: string
+    + createdAt: date
+    + status: string
+
+    + ManageBlog(): void
+}
+
+class Clinic {
+    + ID: string
+    + name: string
+    + description: string
+
+    + ManageClinic(): void
+}
+
+class Review {
+    + ID: string
+    + rate: int    
+    + content: string
+    + createdAt: date
+
+    + Delete(): void
 }
 
 ' --------------- RELATIONSHIPS ---------------
@@ -101,10 +154,25 @@ Admin --|> User
 Doctor --|> User
 Patient --|> User
 
-Doctor "1" -- "n" ScheduleWork: "has"
+ScheduleWork "1" -- "n" Doctor: "has"
 Appointment "n" -- "1" Doctor: "booked with"
 Appointment "n" -- "1" Patient: "booked by"
-Specialty "1" -- "n" Doctor: "specializes in"
-MomoPayment "n" -- "1" Patient: "paid by"
+Specialty "1" -left- "n" Doctor: "specializes in"
+MomoPayment "n" -right- "1" Patient: "paid by"
+
+Patient "1" -right- "n" Message: "received by"
+Admin"1" -left- "n" Message : "received by"
+
+Blog "1" -- "n" Admin: "created by"
+Specialty "1" -right- "n" Clinic: "has"
+Clinic "1" -- "n" Admin: "managed by"
+
+Review "n" -right- "1" Doctor:" "has"
+
+Review "n" -- "1" Patient: "reviewed by"
+
 
 @endUML
+
+
+

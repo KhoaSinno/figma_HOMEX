@@ -14,7 +14,7 @@ actor "Bệnh nhân" as Patient
 ' User <|-- Patient
 
 '------------- Boundary -------------
-rectangle "Hệ thống đặt lịch khám bệnh CTUTCare+" {
+rectangle "Hệ thống đặt lịch khám bệnh CTUT Care+" {
 
 '>>>>>>>>>>>>>>> Khai báo >>>>>>>>>>>>>>>
 
@@ -26,10 +26,12 @@ rectangle "Hệ thống đặt lịch khám bệnh CTUTCare+" {
     (QL lịch khám bệnh) as QLLKB
 
     (QL blog) as QLB
+
+    (QL đánh giá) as QLDG
  
     ' (QL phòng khám) as QLPK
    
-    (QL chuyên khoa) as QLCK
+    (QL chuyên khoa; \nQL Phòng khám) as QLCK
   
     (QL bệnh nhân) as QLBN
   
@@ -45,9 +47,11 @@ rectangle "Hệ thống đặt lịch khám bệnh CTUTCare+" {
     note bottom of QLLKB: Thêm/Sửa/Xóa lịch làm việc bác sĩ; 
     ' note bottom of QLPK: Thêm/ Sửa/ Xóa phòng khám;
 
-    note bottom of QLCK: Thêm/ Sửa/ Xóa chuyên khoa;
+    note bottom of QLCK: Thêm/ Sửa/ Xóa \nchuyên khoa/ phòng khám;
 
     note bottom of QLB: Thêm/ Sửa/ Xóa blog;
+
+    note bottom of QLDG: Xóa đánh giá;
 
     note bottom of QLBN: Quản lý hồ sơ bệnh án;
 
@@ -56,24 +60,37 @@ rectangle "Hệ thống đặt lịch khám bệnh CTUTCare+" {
 '------------- UceeCase Chi tiết -------------
     'Business
     (Cập nhật lịch hẹn; Trả kết quả;) as UpdateLKB
+    (Xem thông lịch hẹn) as getTTLH
     QLLH <.. UpdateLKB
+    QLLH <.. getTTLH
 
-    (Thêm/Sửa/Xóa bệnh nhân;) as crudBN
-    (Xem lịch sử khám bệnh bệnh nhân; ) as getLKBBN
+    (Thêm/Sửa/Xóa bệnh nhân) as crudBN
+    (Xem lịch sử khám bệnh bệnh nhân) as getLKBBN
     QLBN <.. crudBN
     QLBN <.. getLKBBN
 
-    (Đặt lịch hẹn mới;) as createLHM
-    (Hủy lịch hẹn;) as cancelHM
+    (Đặt lịch hẹn mới) as createLHM
+    (Hủy lịch hẹn) as cancelHM
     QLLH <.. createLHM
     QLLH <.. cancelHM
+
+    (Xem thông tin blog) as getBlog
+    QLB <.. getBlog
+
+    (Thêm đánh giá) as createDG
+    QLDG <.. createDG
+
+    (Xem thông tin bác sĩ) as getTTBS
+    QLBS <.. getTTBS
+
+    (Xem lịch khám bác sĩ) as getLKB
+    QLLKB <.. getLKB
 
     'Account
     (Đăng xuất) as Logout
     (Đăng nhập) as Login
-    (Đăng kí) as SignUp
+    (Đăng kí/ Đăng nhập Google/Facebook) as SignUp
     (Đổi mật khẩu) as ChangePass
-
 '------------- Account -------------
     Login <. Logout: include
     ChangePass .> Login : include
@@ -87,6 +104,7 @@ rectangle "Hệ thống đặt lịch khám bệnh CTUTCare+" {
     QLBN <.. Login
     QLBS <.. Login
     QLB <.. Login
+    QLDG <.. Login
 
 '------------- Admin -------------
 
@@ -106,6 +124,9 @@ Admin -- QLBS
 
 Admin -- QLB
 
+Admin -- QLDG
+
+
 
 '------------- Doctor -------------
 getLKBBN -- Doctor
@@ -117,9 +138,15 @@ QLTTCN - Doctor
 SignUp ---- Patient
 cancelHM - Patient
 createLHM - Patient
-getLKBBN - Patient
+' getLKBBN - Patient
 Payment -- Patient
 QLTTCN -- Patient
+getBlog -- Patient
+getLKB -- Patient
+getTTBS -- Patient
+getTTLH -- Patient
+createDG -- Patient
+
 
 }
 @enduml
